@@ -23,7 +23,6 @@ th,
 td {
   min-width: 7.5rem;
   padding: $sp-2 $sp-3;
-  // background-color: $table-background-color;
   border-bottom: $border rgba($border-color, 0.5);
   border-left: $border $border-color;
 
@@ -42,6 +41,7 @@ tbody {
   tr:nth-child(odd) {
     background-color: rgba($duckdb-gray, 0.05) !important;  // Light grey for even rows
   }
+  
   tr {
     &:last-of-type {
       th,
