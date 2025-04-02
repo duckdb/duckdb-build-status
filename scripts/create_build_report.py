@@ -267,7 +267,7 @@ def create_build_report(build_job, con):
         f.write(f"\n### Diff of Uploaded Artifacts\nMatched atrifact names are hidden.\n\n")
         extensions_lists = con.execute(f"""
             SELECT 
-                expected AS 'Missing or Renamed Artifacts in Release CI',
+                expected AS 'Were in Release CI Run, but missing or renamed in Current',
                 actual AS 'New or Renamed Artifacts in the Current CI Run'
             FROM extensions_lists ORDER BY ALL;
         """).df()
