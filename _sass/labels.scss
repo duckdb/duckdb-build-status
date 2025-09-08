@@ -19,12 +19,13 @@
   @include fs-2;
 }
 
+// use colors from _sass/support/_variables.scss Colors section
 .label-green:not(g) {
   background-color: $green-200;
 }
 
 .label-gray:not(g) {
-  background-color: $gray-200;
+  background-color: $grey-dk-200;
 }
 
 .label-purple:not(g) {
