@@ -120,11 +120,11 @@ def create_build_report(build_job, con):
                 if failures_count > 0:
                     is_gcc4_artifacts = is_gcc4(build_job, con)
                     result = con.execute(f"SELECT nightly_build, duckdb_arch FROM '{ inputs }'").fetchall()
-                    tested_binaries = [row[0] + "-" + row[1] + "_gcc4" if row in is_gcc4_artifacts else row[0] + "-" + row[1] for row in result]
+                    tested_binaries = sorted([row[0] + "-" + row[1] + "_gcc4" if row in is_gcc4_artifacts else row[0] + "-" + row[1] for row in result])
                     print("tested_binaries:", tested_binaries)
                 else:
                     result = con.execute(f"SELECT DISTINCT nightly_build, tested_platform FROM '{ ext_results }'").fetchall()
-                    tested_binaries = [second_value for first_value, second_value in result if first_value != 'python']
+                    tested_binaries = sorted([second_value for first_value, second_value in result if first_value != 'python'])
                 join_list = ""
                 for binary in tested_binaries:
                     if not binary.startswith('python'):
@@ -180,7 +180,6 @@ def create_build_report(build_job, con):
                 if tested_py_versions:
                     for version in tested_py_versions:
                         py_join_list += f'i."python_{ version }".concat(l."python_{ version }") AS "python_{ version }",'
-
             if len(py_join_list) > 0:
                 print(py_join_list)
                 con.execute(f"""
