@@ -104,6 +104,12 @@ jobs:
                   fi
                 fi
               fi
+            else
+              pythonRunId=$(gh run list --repo duckdb/duckdb-python --workflow Release --branch main -L 1 --json databaseId --jq '.[].databaseId')
+              gh run view  --repo duckdb/duckdb-python $pythonRunId > annotations
+              if ! grep 'Generated S3 URL' annotations; then 
+                echo "Python wasn't released tonight"
+              fi
             fi
             echo "Verifying version and testing extensions..."
             python scripts/verify_and_test.py \
