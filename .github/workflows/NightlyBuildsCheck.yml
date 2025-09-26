@@ -11,9 +11,11 @@ on:
       event:
         description: event triggered the run (`workflow_dispatch`)
         type: string
+        default: 'workflow_dispatch'
       should_publish:
         description: true - to publish the report
         type: string
+        default: 'false'
 
 permissions:
   contents: write

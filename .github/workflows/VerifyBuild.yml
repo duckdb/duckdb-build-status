@@ -107,18 +107,17 @@ jobs:
             else
               pythonRunId=$(gh run list --repo duckdb/duckdb-python --workflow Release --branch main -L 1 --json databaseId --jq '.[].databaseId')
               gh run view  --repo duckdb/duckdb-python $pythonRunId > annotations
-              if grep 'Generated S3 URL' annotations; then 
-                echo "Verifying version and testing extensions..."
-                python scripts/verify_and_test.py \
-                    --nightly_build ${{ inputs.nightly_build }} \
-                    --architecture ${{ inputs.duckdb_arch }} \
-                    --run_id ${{ steps.get-run-id.outputs.RUN_ID }} \
-                    --runs_on ${{ inputs.runs_on }} \
-                    --branch ${{ inputs.branch }}
-              else
+              if ! grep 'Generated S3 URL' annotations; then 
                 echo "Python wasn't released tonight"
               fi
             fi
+            echo "Verifying version and testing extensions..."
+            python scripts/verify_and_test.py \
+                --nightly_build ${{ inputs.nightly_build }} \
+                --architecture ${{ inputs.duckdb_arch }} \
+                --run_id ${{ steps.get-run-id.outputs.RUN_ID }} \
+                --runs_on ${{ inputs.runs_on }} \
+                --branch ${{ inputs.branch }}
 
       - name: Upload actions for extensions
         if: always()
