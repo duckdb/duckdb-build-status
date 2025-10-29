@@ -35,9 +35,9 @@ jobs:
     name: Generate nightly build artifact json file
     runs-on: ubuntu-latest
     env:
+      AWS_ENDPOINT_URL: ${{ secrets.S3_DUCKDB_STAGING_ENDPOINT }}
       AWS_ACCESS_KEY_ID: ${{ secrets.S3_DUCKDB_STAGING_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_DUCKDB_STAGING_KEY }}
-      AWS_DEFAULT_REGION: us-east-2
     outputs:
       CURR_DATE: ${{ steps.curr-date.outputs.CURR_DATE }}
       matrix: ${{ steps.set-outputs.outputs.matrix }}
@@ -120,9 +120,9 @@ jobs:
       - get-run-info 
       - run-tests
     env:
+      AWS_ENDPOINT_URL: ${{ secrets.S3_DUCKDB_STAGING_ENDPOINT }}
       AWS_ACCESS_KEY_ID: ${{ secrets.S3_DUCKDB_STAGING_ID }}
       AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_DUCKDB_STAGING_KEY }}
-      AWS_DEFAULT_REGION: us-east-2
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
